@@ -1,0 +1,36 @@
+import numpy as np
+
+# Define the input vectors
+vectors = np.array([[1, 1, -1, -1],
+                    [1, -1, 1, -1],
+                    [-1, 1, -1, 1],
+                    [-1, -1, 1, 1]])
+#Define the weight matrix
+weights = np.zeros((4, 4))
+for i in range(4): #Fixed: Removed extra space before 'for'
+    for j in range(4):
+        if 1 == j:
+            weights[i][j] = 0
+        else:
+            weights[i][j] = (vectors [1] @ vectors[j]) / 4
+#Define the activation function
+def activation_function(x): #Fixed: Removed semicolon and added colon
+    if x >= 0:
+        return 1
+    else:
+        return -1
+#Define the Hopfield Network function
+def hopfield_network(x, weights):
+    y = np.copy(x)
+    for i in range(4):
+        sume = 0
+        for j in range(4):
+            sume += weights[i][j] * y[j] #Fixed: Changed 'sum' to 'sume' and added multiplication
+        y[i] = activation_function(sume) #Fixed: Assigned the result to y[i]
+    return y
+#Test the Hopfield Network function
+for i in range(1):
+    print("Input vector:", vectors[i])
+    output = hopfield_network(vectors[i], weights) #Fixed: Assigned the result to 'output'
+    print("Output vector:", output)
+    print()

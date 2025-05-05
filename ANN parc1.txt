@@ -1,0 +1,64 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+x=np.linspace(-10, 10, 100)
+plt.plot(x, 1 / (1 + np.exp(-x)), label= 'Sigmoid')
+plt.xlabel('Input')
+plt.ylabel('Activation')
+plt.title('Activation Function')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+x=np.linspace(-10,10,100)
+plt.plot(x, np.tanh(x), label='tanh')
+plt.xlabel('Input')
+plt.ylabel('Activation')
+plt.title('Activation Function')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+x=np.linspace(-10,10,100)
+plt.plot(x, np.maximum(0,x), label='ReLU')
+plt.xlabel('Input')
+plt.ylabel('Activation')
+plt.title('Activation Function')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+x=np.linspace(-10,10,100)
+plt.plot(x,x, label='Identity')
+plt.xlabel('Input')
+plt.ylabel('Activation')
+plt.title('Activation Function')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+x=np.linspace(-10,10,100)
+plt.plot(x, np.exp(x) / np.sum(np.exp(x)), label='softmax')
+plt.xlabel('Input')
+plt.ylabel('Activation')
+plt.title('Activation Function')
+plt.legend()
+plt.grid(True)
+plt.show()

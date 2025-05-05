@@ -1,0 +1,33 @@
+
+
+import tensorflow as tf
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+import numpy as np
+
+# Load dataset and prepare binary classification (class 0 vs not class 0)
+iris = load_iris()
+X = iris.data
+y = (iris.target == 0).astype(int)  # Convert to binary: 1 if class 0, else 0
+
+# Split and normalize
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Build Logistic Regression model using TensorFlow (Sequential API)
+model = tf.keras.models.Sequential([
+    tf.keras.layers.Dense(1, activation='sigmoid', input_shape=(X.shape[1],))
+])
+
+# Compile model
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+
+# Train model
+model.fit(X_train, y_train, epochs=100, verbose=0)
+
+# Evaluate model
+loss, accuracy = model.evaluate(X_test, y_test)
+print(f"Test Accuracy: {accuracy:.2f}")

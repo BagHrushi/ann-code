@@ -1,0 +1,67 @@
+import numpy as np
+
+class NeuralNetwork:
+    def __init__(self, input_size, hidden_size, output_size, learning_rate=0.1):
+        self.input_size = input_size
+        self.hidden_size = hidden_size
+        self.output_size = output_size
+        self.learning_rate = learning_rate
+
+        # Initialize weights randomly
+        self.W1 = np.random.randn(self.input_size, self.hidden_size)
+        self.b1 = np.zeros((1, self.hidden_size))
+        self.W2 = np.random.randn(self.hidden_size, self.output_size)
+        self.b2 = np.zeros((1, self.output_size))
+
+    def sigmoid(self, x):
+        return 1 / (1 + np.exp(-x))
+
+    def sigmoid_derivative(self, x):
+        """Derivative of the sigmoid function"""
+        return x * (1 - x)  # Fix: Sigmoid derivative function
+
+    def forward(self, X):
+        """Forward propagation"""
+        self.z1 = np.dot(X, self.W1) + self.b1
+        self.a1 = self.sigmoid(self.z1)
+        self.z2 = np.dot(self.a1, self.W2) + self.b2
+        output = self.sigmoid(self.z2)
+        return output
+
+    def backward(self, X, y, output):
+        """Backward propagation and weight updates"""
+        # Compute output error
+        output_error = y - output
+        output_delta = output_error * self.sigmoid_derivative(output)
+
+        # Compute hidden layer error
+        hidden_error = output_delta.dot(self.W2.T)
+        hidden_delta = hidden_error * self.sigmoid_derivative(self.a1)
+
+        # Update weights and biases
+        self.W2 += self.a1.T.dot(output_delta) * self.learning_rate
+        self.b2 += np.sum(output_delta, axis=0, keepdims=True) * self.learning_rate
+        self.W1 += X.T.dot(hidden_delta) * self.learning_rate
+        self.b1 += np.sum(hidden_delta, axis=0, keepdims=True) * self.learning_rate
+
+    def train(self, X, y, epochs=10000):
+        """Training loop"""
+        for _ in range(epochs):
+            output = self.forward(X)
+            self.backward(X, y, output)
+
+    def predict(self, X):
+        """Make predictions"""
+        return self.forward(X)
+
+        # Create training data for XOR
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y = np.array([[1], [0], [1], [0]])  # XOR logic gate
+
+# Train the neural network
+nn = NeuralNetwork(input_size=2, hidden_size=3, output_size=1)
+nn.train(X, y, epochs=10000)
+
+# Test predictions
+print("Predictions after training:")
+print(nn.predict(X))
